@@ -66,10 +66,36 @@ namespace ManyToManyApp.Controllers
             {
                 string? afbeeldingpad = viewModel.Afbeelding != null && viewModel.Afbeelding.Length > 0 
                     ? await UploadFile(viewModel.Afbeelding) 
-                    : "/images/default.jpg"; 
-            }
+                    : "/images/default.jpg";
+                var newBoek = new Boek
+                {
+                    Titel = viewModel.Boek.Titel,
+                    AuteurId = viewModel.SelectedAuteurId,
+                    IsAvailable = viewModel.Boek.IsAvailable,
+                    IsNewRelease = viewModel.Boek.IsNewRelease,
+                    IsBestSeller = viewModel.Boek.IsBestSeller,
+                    BindingType = viewModel.Boek.BindingType,
+                    Afbeeldingpad = afbeeldingpad,
+                };
 
-            return View();
+                _context.Boeken.Add(newBoek);
+                await _context.SaveChangesAsync();
+
+                if (viewModel.SelectedGenres != null)
+                {
+					foreach (var genreId in viewModel.SelectedGenres)
+					{
+                        var boekGenres = new BoekGenre
+                        {
+                            BoekId = newBoek.BoekId,
+                            GenreId = genreId,
+                        };
+						_context.BoekGenres.Add(boekGenres);
+					}
+                    await _context.SaveChangesAsync();
+				}
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<string> UploadFile(IFormFile afbeelding)
