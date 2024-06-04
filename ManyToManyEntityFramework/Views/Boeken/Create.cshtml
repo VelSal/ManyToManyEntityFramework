@@ -39,11 +39,48 @@
 			</div>
 
 			<div class="form-group">
-				<label>Type binding</label>
+				<label class="mt-2"><b>Type binding</b></label>
 				<div class="form-check">
-					<input type="radio" asp-for="Boek.BindingType" class="form-check-input" />
+					<input type="radio" asp-for="Boek.BindingType" value="HardCover" class="form-check-input" />
+					<label>Hardcover</label>
 				</div>
 			</div>
+			<div class="form-group">
+				<div class="form-check">
+					<input type="radio" asp-for="Boek.BindingType" value="Paperback" class="form-check-input" />
+					<label>Paperback</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="form-check">
+					<input type="radio" asp-for="Boek.BindingType" value="Ebook" class="form-check-input" />
+					<label>Ebook</label>
+				</div>
+			</div>
+			<span asp-validation-for="Boek.BindingType" class="text-danger"></span>
+
+			<div class="form-group my-2">
+				<label><b>Genres</b></label>
+				@foreach (var genre in Model.Genres)
+				{
+					<div class="form-check">
+						<input type="checkbox" name="SelectedGenres" value="@genre.GenreId" class="form-check-input" />
+						<label class="form-check-label">@genre.Naam</label>
+					</div>
+				}
+			</div>
+
+			<div class="form-group">
+				<label><b>Afbeelding</b></label>
+				<input type="file" asp-for="Afbeelding" class="form-control-file" onchange="previewImage(event)" />
+				<span asp-validation-for="Afbeelding" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<img id="afbeeldingPreview" src="@Model.AfbeeldingPad" class="img-thumbnail img-fluid" style="height: 200px; margin-right: 15px;" alt="Boek Afbeelding" />
+				<button type="submit" class="btn btn-primary">Opslaan</button>
+			</div>
+			
 		</form>
 	</div>
 </div>
