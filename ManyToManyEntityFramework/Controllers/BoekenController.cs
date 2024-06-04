@@ -1,8 +1,10 @@
 ﻿using ManyToManyApp.Data;
+using ManyToManyApp.Models;
 using ManyToManyApp.Models.ViewModels;
 using ManyToManyEntityFramework.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace ManyToManyApp.Controllers
 {
@@ -52,6 +54,18 @@ namespace ManyToManyApp.Controllers
                 SelectedGenres = new List<int>(),
             };
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateBoekViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                string? afbeeldingpad = viewModel.Afbeelding != null && viewModel.Afbeelding.Length > 0 ? await UploadFile(viewModel.Afbeelding) : "/images/default.jpg"; 
+            }
+
+            return View();
         }
     }
 }

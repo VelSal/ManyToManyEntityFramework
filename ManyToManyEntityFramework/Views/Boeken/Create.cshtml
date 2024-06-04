@@ -76,11 +76,29 @@
 				<span asp-validation-for="Afbeelding" class="text-danger"></span>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group my-3">
 				<img id="afbeeldingPreview" src="@Model.AfbeeldingPad" class="img-thumbnail img-fluid" style="height: 200px; margin-right: 15px;" alt="Boek Afbeelding" />
-				<button type="submit" class="btn btn-primary">Opslaan</button>
+
 			</div>
-			
+
+			<input type="submit" value="Opslaan" class="btn btn-primary" />
+
 		</form>
+		<a asp-action"Index" class="btn btn-secondary my-1">Terug naar Index</a>
 	</div>
+
 </div>
+
+@section Scripts {
+	<script>
+		function previewImage(event) {
+			var reader = new FileReader();
+			reader.onload = function () {
+				var output = document.getElementById('afbeeldingPreview');
+				output.style.display = 'block';
+				output.src = reader.result;
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	</script>
+}
