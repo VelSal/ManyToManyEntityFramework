@@ -1,55 +1,55 @@
 ﻿@using ManyToManyApp.Models.ViewModels
 @model IEnumerable<BoekenIndexViewModel>
 
-    <h2>Boeken overzicht</h2>
+<h2>Boeken overzicht</h2>
 
 <div class="mb-3">
-    <a asp-action="Create" asp-controller="Boeken" class="btn btn-primary">Nieuw Boek Toevoegen</a>
+	<a asp-action="Create" asp-controller="Boeken" class="btn btn-primary">Nieuw Boek Toevoegen</a>
 </div>
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Titel</th>
-            <th>Auteur</th>
-            <th>Genres</th>
-            <th>Beschikbaar</th>
-            <th>Nieuwe Uitgave</th>
-            <th>Best Seller</th>
-            <th>Binding Type</th>
-            <th colspan="3">Mogelijke Acties</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var boek in Model)
-        {
-            <tr>
-                <td>@boek.Titel</td>
-                <td>@boek.AuteurNaam</td>
-                <td>
-                    @foreach (var genre in boek.GenreNamen)
-                    {
-                        <span class="badge" style="background-color:cornflowerblue; color:white">@genre</span>
-                    }
-                </td>
-                <td>@boek.IsAvailable</td>
-                <td>@boek.IsNewRelease</td>
-                <td>@boek.IsBestSeller</td>
-                <td>@boek.BindingType.ToString()</td>
-                <td>
-                    <a asp-action="Edit" asp-controller="Boeken" asp-route-id="@boek.BoekId" class="btn btn-warning btn-sm">Bewerken</a>
-                    <a asp-action="Details" asp-controller="Boeken" asp-route-id="@boek.BoekId" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="Delete" asp-controller="Boeken" asp-route-id="@boek.BoekId" class="btn btn-danger btn-sm">Verwijderen</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="6"></td>
-            <th>Totaal boeken:</th>
-            @* <td >@Model.Count()</td> *@
-            <td>@ViewBag.boekenCount</td>
-        </tr>
-    </tfoot>
+	<thead>
+		<tr>
+			<th>Titel</th>
+			<th>Auteur</th>
+			<th>Genres</th>
+			<th>Beschikbaar</th>
+			<th>Nieuwe Uitgave</th>
+			<th>Best Seller</th>
+			<th>Binding Type</th>
+			<th colspan="3">Mogelijke Acties</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var boek in Model)
+		{
+			<tr>
+				<td>@boek.Titel</td>
+				<td>@boek.AuteurNaam</td>
+				<td>
+					@foreach (var genre in boek.GenreNamen)
+					{
+						<span class="badge" style="background-color:cornflowerblue; color:white">@genre</span>
+					}
+				</td>
+				<td>@boek.IsAvailable</td>
+				<td>@boek.IsNewRelease</td>
+				<td>@boek.IsBestSeller</td>
+				<td>@boek.BindingType.ToString()</td>
+				<td>
+					<a asp-action="Edit" asp-controller="Boeken" asp-route-id="@boek.BoekId" class="btn btn-warning btn-sm">Bewerken</a>
+					<a asp-action="Details" asp-controller="Boeken" asp-route-id="@boek.BoekId" class="btn btn-info btn-sm">Details</a>
+					<a asp-action="Delete" asp-controller="Boeken" asp-route-id="@boek.BoekId" class="btn btn-danger btn-sm">Verwijderen</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="6"></td>
+			<th><u>Totaal boeken:</u></th>
+			@* <td >@Model.Count()</td> *@
+			<td>@ViewBag.boekenCount</td>
+		</tr>
+	</tfoot>
 </table>

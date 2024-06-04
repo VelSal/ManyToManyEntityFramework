@@ -1,5 +1,6 @@
 ﻿using ManyToManyApp.Data;
 using ManyToManyApp.Models.ViewModels;
+using ManyToManyEntityFramework.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,16 @@ namespace ManyToManyApp.Controllers
 
             }).ToList();
 
+            return View(viewModel);
+        }
+        public async Task<IActionResult> Create()
+        {
+            var viewModel = new CreateBoekViewModel
+            {
+                Auteurs = await _context.Auteurs.ToListAsync(),
+                Genres = await _context.Genres.ToListAsync(),
+                SelectedGenres = new List<int>(),
+            };
             return View(viewModel);
         }
     }
