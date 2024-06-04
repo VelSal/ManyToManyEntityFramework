@@ -12,10 +12,12 @@ namespace ManyToManyApp.Controllers
     public class BoekenController : Controller
     {
         private readonly ManyToManyContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BoekenController(ManyToManyContext context)
+        public BoekenController(ManyToManyContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<IActionResult> Index()
         {
