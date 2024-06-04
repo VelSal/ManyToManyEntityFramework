@@ -105,7 +105,7 @@ namespace ManyToManyApp.Controllers
                 return null;
             }
 
-            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");    //ne pas oublier l'injection de dépendance au début de cette classe
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + afbeelding.FileName;
             string filePath = Path.Combine(uploadPath, uniqueFileName);
             
