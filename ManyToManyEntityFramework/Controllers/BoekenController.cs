@@ -62,10 +62,31 @@ namespace ManyToManyApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string? afbeeldingpad = viewModel.Afbeelding != null && viewModel.Afbeelding.Length > 0 ? await UploadFile(viewModel.Afbeelding) : "/images/default.jpg"; 
+                string? afbeeldingpad = viewModel.Afbeelding != null && viewModel.Afbeelding.Length > 0 
+                    ? await UploadFile(viewModel.Afbeelding) 
+                    : "/images/default.jpg"; 
             }
 
             return View();
+        }
+
+        private async Task<string> UploadFile(IFormFile afbeelding)
+        {
+            if (afbeelding == null || afbeelding.Length == 0)
+            {
+                return null;
+            }
+
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + afbeelding.FileName;
+            string filePath = Path.Combine(uploadPath, uniqueFileName);
+            
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await afbeelding.CopyToAsync(fileStream);
+            }
+
+            return "/images/" + uniqueFileName;
         }
     }
 }
