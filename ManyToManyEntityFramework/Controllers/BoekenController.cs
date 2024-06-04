@@ -21,7 +21,7 @@ namespace ManyToManyApp.Controllers
                 .Include(b => b.BoekGenres)
                     .ThenInclude(bg => bg.Genre)
                 .ToListAsync();
-
+            ViewBag.boekenCount = boeken.Count();
             if (boeken == null || !boeken.Any())
             {
                 return NotFound();

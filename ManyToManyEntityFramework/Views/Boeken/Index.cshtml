@@ -7,7 +7,7 @@
     <a asp-action="Create" asp-controller="Boeken" class="btn btn-primary">Nieuw Boek Toevoegen</a>
 </div>
 
-<table>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Titel</th>
@@ -17,7 +17,7 @@
             <th>Nieuwe Uitgave</th>
             <th>Best Seller</th>
             <th>Binding Type</th>
-            <th>Mogelijke Acties</th>
+            <th colspan="3">Mogelijke Acties</th>
         </tr>
     </thead>
     <tbody>
@@ -29,7 +29,7 @@
                 <td>
                     @foreach (var genre in boek.GenreNamen)
                     {
-                        <span>@genre</span>
+                        <span class="badge" style="background-color:cornflowerblue; color:white">@genre</span>
                     }
                 </td>
                 <td>@boek.IsAvailable</td>
@@ -45,6 +45,11 @@
         }
     </tbody>
     <tfoot>
-
+        <tr>
+            <td colspan="6"></td>
+            <th>Totaal boeken:</th>
+            @* <td >@Model.Count()</td> *@
+            <td>@ViewBag.boekenCount</td>
+        </tr>
     </tfoot>
 </table>
