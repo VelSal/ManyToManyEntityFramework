@@ -20,3 +20,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.zoom:hover {
+    transform: scale(1.5);
+}
