@@ -1,0 +1,80 @@
+﻿@model BoekDetailsViewModel
+
+<h2>Boek bewerken</h2>
+<div class="card">
+	<div class="card-body">
+		<div class="form-group">
+			<label asp-for="Titel" class="control-label">Titel</label>
+			<input asp-for="Titel" disabled class="form-control" />
+			<span asp-validation-for="Titel" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="AuteurNaam" class="control-label">Titel</label>
+			<input asp-for="AuteurNaam" disabled class="form-control" />
+			<span asp-validation-for="AuteurNaam" class="text-danger"></span>
+		</div>
+
+		@* Checkbox group *@
+		<div class="form-group">
+			<div class="form-group">
+				<input type="checkbox" disabled asp-for="IsAvailable" class="form-check-input" />
+				<label>&nbsp;Beschikbaar</label>
+			</div>
+
+			<div class="form-group">
+				<input type="checkbox" disabled asp-for="IsNewRelease" class="form-check-input" />
+				<label>&nbsp;Nieuw uitgave</label>
+			</div>
+
+			<div class="form-group">
+				<div class="form-group">
+					<input type="checkbox" disabled asp-for="IsBestSeller" class="form-check-input" />
+					<label>&nbsp;Best Seller</label>
+				</div>
+			</div>
+		</div>
+
+		@* Bindingtype selection *@
+		<label class="mt-2"><b>Type binding</b></label>
+		<div class="form-group">
+			@foreach (var binding in Enum.GetValues<BindingType>())
+			{
+				<div class="form-check">
+					<input type="radio" asp-for="BindingType" value="@binding" class="form-check-input" />
+					<label>@binding</label>
+				</div>
+			}
+		</div>
+		<span asp-validation-for="BindingType" class="text-danger"></span>
+
+		<div class="form-group my-2">
+			<label><b>Genres</b></label>
+			@foreach (var genre in Model.GenreNamen)
+			{
+				<div class="form-check">
+					<input type="checkbox" name="SelectedGenres" value="@genre." class="form-check-input"
+					@Model.SelectedGenres.Contains(genre.GenreId)) ? "checked" : "" />
+					<label class="form-check-label">@genre.Naam</label>
+				</div>
+			}
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Afbeelding" class="control-label"><b>Afbeelding</b></label>
+			<input type="file" asp-for="Afbeelding" class="form-control-file" onchange="previewImage(event)" />
+			<span asp-validation-for="Afbeelding" class="text-danger"></span>
+		</div>
+
+		@if (!string.IsNullOrEmpty(Model.AfbeeldingPad))
+		{
+			<div class="form-group my-3">
+				<img id="afbeeldingPreview" src="@Model.AfbeeldingPad" class="img-thumbnail img-fluid zoom" style="height: 200px;" alt="Boek Afbeelding" />
+			</div>
+		}
+
+		<input type="submit" value="Bewaren" class="btn btn-primary" />
+		
+		<a asp-action"Index" class="btn btn-secondary my-1">Terug naar Index</a>
+	</div>
+</div>

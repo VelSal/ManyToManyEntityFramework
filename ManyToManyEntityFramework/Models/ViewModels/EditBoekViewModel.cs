@@ -18,6 +18,6 @@ namespace ManyToManyEntityFramework.Models.ViewModels
 		public List<Auteur>? Auteurs { get; set; }
 		public List<Genre>? Genres { get; set; }
 		public IFormFile? Afbeelding { get; set; }
-		public string? AfbeeldingPad { get; set; } = "/images/default.jpg";
+		public string? AfbeeldingPad { get; set; } = "/images/Default.png";
 	}
 }

@@ -189,7 +189,34 @@ namespace ManyToManyApp.Controllers
 			
 		}
 
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var boek = await _context.Boeken
+				.Include(x => x.BoekGenres)
+				.FirstOrDefaultAsync(b => b.BoekId == id);
+			if (boek == null)
+			{
+				return NotFound();
+			}
+			var viewModel = new BoekDetailsViewModel
+			{
+				BoekId = boek.BoekId,
+				Titel = boek.Titel,
+				AuteurNaam = boek.Auteur?.Naam,
+				GenreNamen = boek.BoekGenres.Select(bg => bg.Genre.Naam).ToList(),
+				IsAvailable = boek.IsAvailable,
+				IsNewRelease = boek.IsNewRelease,
+				IsBestSeller = boek.IsBestSeller,
+				BindingType = boek.BindingType?.ToString(),
+				AfbeeldingPad = boek.Afbeeldingpad
+			};
 
+			return View(viewModel);
+		}
 
 		private async Task<string> UploadFile(IFormFile afbeelding)
 		{
