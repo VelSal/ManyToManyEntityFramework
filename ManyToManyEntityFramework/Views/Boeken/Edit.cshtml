@@ -1,5 +1,4 @@
-﻿@using ManyToManyApp.Enums
-@model EditBoekViewModel
+﻿@model EditBoekViewModel
 
 <h2>Boek bewerken</h2>
 <div class="card">
@@ -53,6 +52,47 @@
 			</div>
 			<span asp-validation-for="BindingType" class="text-danger"></span>
 
+			<div class="form-group my-2">
+				<label><b>Genres</b></label>
+				@foreach (var genre in Model.Genres)
+				{
+					<div class="form-check">
+						<input type="checkbox" name="SelectedGenres" value="@genre.GenreId" class="form-check-input"
+						@Model.SelectedGenres.Contains(genre.GenreId)) ? "checked" : "" />
+						<label class="form-check-label">@genre.Naam</label>
+					</div>
+				}
+			</div>
+
+			<div class="form-group">
+				<label asp-for="Afbeelding" class="control-label"><b>Afbeelding</b></label>
+				<input type="file" asp-for="Afbeelding" class="form-control-file" onchange="previewImage(event)" />
+				<span asp-validation-for="Afbeelding" class="text-danger"></span>
+			</div>
+
+			@if (!string.IsNullOrEmpty(Model.AfbeeldingPad))
+			{
+				<div class="form-group my-3">
+					<img id="afbeeldingPreview" src="@Model.AfbeeldingPad" class="img-thumbnail img-fluid zoom" style="height: 200px;" alt="Boek Afbeelding" />
+				</div>
+			}
+
+			<input type="submit" value="Bewaren" class="btn btn-primary" />
 		</form>
+		<a asp-action"Index" class="btn btn-secondary my-1">Terug naar Index</a>
 	</div>
 </div>
+
+@section Scripts {
+	<script>
+		function previewImage(event) {
+			var reader = new FileReader();
+			reader.onload = function () {
+				var output = document.getElementById('afbeeldingPreview');
+				output.style.display = 'block';
+				output.src = reader.result;
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+	</script>
+}

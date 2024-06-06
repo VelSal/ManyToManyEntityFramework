@@ -66,7 +66,7 @@ namespace ManyToManyApp.Controllers
             {
                 string? afbeeldingpad = viewModel.Afbeelding != null && viewModel.Afbeelding.Length > 0 
                     ? await UploadFile(viewModel.Afbeelding) 
-                    : "/images/default.jpg";
+                    : "/images/Default.png";
                 var newBoek = new Boek
                 {
                     Titel = viewModel.Boek.Titel,
@@ -131,7 +131,14 @@ namespace ManyToManyApp.Controllers
 
             return View(viewModel);
         }
-		
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditBoekViewModel viewModel)
+        {
+
+            return RedirectToAction(nameof(Index));
+        }
 
         private async Task<string> UploadFile(IFormFile afbeelding)
         {
