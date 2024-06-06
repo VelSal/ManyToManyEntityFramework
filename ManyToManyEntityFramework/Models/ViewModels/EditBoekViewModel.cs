@@ -1,11 +1,13 @@
 ﻿using ManyToManyApp.Enums;
 using ManyToManyApp.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManyToManyEntityFramework.Models.ViewModels
 {
 	public class EditBoekViewModel
 	{
 		public int BoekId { get; set; }
+		[Required]
 		public string Titel { get; set; }
 		public int SelectedAuteurId { get; set; }
 		public List<int> SelectedGenres { get; set; }
