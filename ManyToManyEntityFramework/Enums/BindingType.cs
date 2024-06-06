@@ -4,6 +4,7 @@
     {
         Hardcover = 1,
         Paperback = 2,
-        Ebook = 3
+        Ebook = 3,
+		AudioBook = 4
     }
 }

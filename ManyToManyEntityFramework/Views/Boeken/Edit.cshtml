@@ -1,1 +1,58 @@
-﻿@model EditBoekViewModel
+﻿@using ManyToManyApp.Enums
+@model EditBoekViewModel
+
+<h2>Boek bewerken</h2>
+<div class="card">
+	<div class="card-body">
+		<form asp-action="Edit" asp-controller="Boeken" enctype="multipart/form-data">
+			@Html.AntiForgeryToken()
+			<input type="hidden" asp-for="BoekId" />
+
+			<div class="form-group">
+				<label asp-for="Titel" class="control-label">Titel</label>
+				<input asp-for="Titel" class="form-control" />
+				<span asp-validation-for="Titel" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="SelectedAuteurId" class="control-label">Auteur</label>
+				<select asp-for="SelectedAuteurId" class="form-control" asp-items="@(new SelectList(Model.Auteurs, "AuteurId", "Naam"))"></select>
+			</div>
+
+
+			@* Checkbox group *@
+			<div class="form-group">
+				<div class="form-group">
+					<input type="checkbox" asp-for="IsAvailable" class="form-check-input" />
+					<label>&nbsp;Beschikbaar</label>
+				</div>
+
+				<div class="form-group">
+					<input type="checkbox" asp-for="IsNewRelease" class="form-check-input" />
+					<label>&nbsp;Nieuw uitgave</label>
+				</div>
+
+				<div class="form-group">
+					<div class="form-group">
+						<input type="checkbox" asp-for="IsBestSeller" class="form-check-input" />
+						<label>&nbsp;Best Seller</label>
+					</div>
+				</div>
+			</div>
+
+			@* Bindingtype selection *@
+			<label class="mt-2"><b>Type binding</b></label>
+			<div class="form-group">
+				@foreach (var binding in Enum.GetValues<BindingType>())
+				{
+					<div class="form-check">
+						<input type="radio" asp-for="BindingType" value="@binding" class="form-check-input" />
+						<label>@binding</label>
+					</div>
+				}
+			</div>
+			<span asp-validation-for="BindingType" class="text-danger"></span>
+
+		</form>
+	</div>
+</div>
