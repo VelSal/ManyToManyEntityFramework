@@ -98,6 +98,41 @@ namespace ManyToManyApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+			if (id == null)
+			{
+				return NotFound();
+			}
+            var boek = await _context.Boeken
+                .Include(b => b.BoekGenres)
+                .ThenInclude(bg => bg.Genre)
+                .FirstOrDefaultAsync(b => b.BoekId == id);
+
+            if (boek == null)
+            {
+				return NotFound();
+            }
+
+			var viewModel = new EditBoekViewModel
+			{
+				BoekId = boek.BoekId,
+                Titel = boek.Titel,
+				SelectedAuteurId = boek.AuteurId,
+                SelectedGenres = boek.BoekGenres.Select(bg => bg.GenreId).ToList(),
+                IsAvailable = boek.IsAvailable,
+                IsNewRelease = boek.IsNewRelease,
+                IsBestSeller = boek.IsBestSeller,
+                BindingType = boek.BindingType,
+                Auteurs = await _context.Auteurs.ToListAsync(),
+                Genres = await _context.Genres.ToListAsync(),
+                AfbeeldingPad = boek.Afbeeldingpad
+			};
+
+            return View(viewModel);
+        }
+		
+
         private async Task<string> UploadFile(IFormFile afbeelding)
         {
             if (afbeelding == null || afbeelding.Length == 0)
@@ -108,7 +143,7 @@ namespace ManyToManyApp.Controllers
             string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "images");    //ne pas oublier l'injection de dépendance au début de cette classe
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + afbeelding.FileName;
             string filePath = Path.Combine(uploadPath, uniqueFileName);
-            
+
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await afbeelding.CopyToAsync(fileStream);
@@ -116,5 +151,7 @@ namespace ManyToManyApp.Controllers
 
             return "/images/" + uniqueFileName;
         }
+
+
     }
 }
